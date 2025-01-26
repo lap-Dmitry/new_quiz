@@ -1,0 +1,24 @@
+{% extends 'base.html' %}
+
+{% block title %}
+Логин
+{% endblock %}
+
+{% block body %}
+<div class="container text-center">
+    <h2>Войти в аккаунт</h2>
+
+    <p>{{error}}</p>
+    <form method="POST" class="login">        
+        <div class="d-grid gap-3 col-4 mx-auto">  
+            <label for="new_login">
+                <input class="form-control" type="text" name="new_login" id="new_login" placeholder="Введите логин" required>
+            </label>
+            <label for="password">
+                <input class="form-control" type="password" name="password" id="password" placeholder="Введите пароль" required>
+            </label>
+            <button type="submit" class="btn btn-primary btn-lg">Войти</button>
+        </div>
+    </form>
+</div>
+{% endblock %}

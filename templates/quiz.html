@@ -1,0 +1,20 @@
+{% extends 'base.html' %}
+
+{% block title %}
+Викторина
+{% endblock %}
+
+{% block body %}
+<div class="container">
+    <h2 class="text-center">Викторина</h2>
+    <p class="text-end">Счет: {{ current_user.score }}</p>
+    <form action="{{ url_for('quiz_answer') }}" method="POST" class="quiz">
+            <h3>{{ question.text }}</h3>
+            {% for option in options %}
+                <input class="form-check-input" type="radio" name="answer" value="{{ option }}">{{ option }}<br>
+            {% endfor %}
+            <input  type="hidden" name="question_id" value="{{ question.id }}">
+            <input class="btn btn-primary btn-lg text center" type="submit" value="Ответить">
+    </form>
+</div>
+{% endblock %}

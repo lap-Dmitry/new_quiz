@@ -1,0 +1,36 @@
+{% extends 'base.html' %}
+
+{% block title %}
+Топ игроков
+{% endblock %}
+
+{% block body %}
+<div class="container">
+    <h2>Рейтинг игроков</h2>
+    <div class="row">
+        <div class="col border">
+            <p class="text-center" >Место</p>
+        </div>
+        <div class="col border">
+            <p class="text-center">Имя</p>
+        </div>
+        <div class="col border">    
+            <p class="text-center">Счет</p>
+        </div>
+    </div>
+    {% for rang, name, score in leaderboard_data %}
+    
+    <div class="row">
+        <div class="col border">
+            <p class="text-center">{{ rang }}</p>
+        </div>
+        <div class="col border">
+            <p class="text-center">{{ name }}</p>
+        </div>
+        <div class="col border">    
+            <p class="text-center">{{ score }}</p>
+        </div>
+    </div>
+    {% endfor %}
+</div>
+{% endblock %}

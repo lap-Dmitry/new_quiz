@@ -1,0 +1,59 @@
+<!doctype html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport"
+          content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <link rel="stylesheet" href="{{url_for('static', filename='css/style.css')}}">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.2/dist/umd/popper.min.js" integrity="sha384-IQsoLXl5PILFhosVNubq5LC7Qb9DXgDA9i+tQ8Zj3iwWAwPtgFTxbJ8NT4GN1R8p" crossorigin="anonymous"></script>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.min.js" integrity="sha384-cVKIPhGWiC2Al4u+LWgxfKTRIcfu0JTxR+EQDz/bgldoEyl4H0zUF0QKbrJ0EcQF" crossorigin="anonymous"></script>
+    <title>{% block title %}{% endblock %}</title>
+</head>
+<body>
+
+
+    <div class="container">
+            <div class="row">
+                <div class="col">
+            <header class="d-flex flex-wrap justify-content-center py-3 mb-4 border-bottom">
+                <a href="/" class="d-flex align-items-center mb-3 mb-md-0 me-md-auto text-dark text-decoration-none">
+                    <svg class="bi me-2" width="40" height="32"><use xlink:href="#bootstrap"></use></svg>
+                    <span class="fs-4">Викторина о Разработке ИИ на Python</span>
+                </a>
+                <ul class="nav nav-pills">
+                    <li class="nav-item"><a href="/" class="nav-link" aria-current="page">Главная</a></li>
+                    {% if not current_user.is_authenticated %}
+                    <li class="nav-item"><a href="{{ url_for('registration') }}" class="nav-link">Регистрация</a></li>
+                    <li class="nav-item"><a href="{{ url_for('login') }}" class="nav-link">Вход в систему</a></li>
+                    {% else %}
+                    <li class="nav-item"><a href="{{ url_for('logout') }}" class="nav-link">Выход</a></li>
+                    <li class="nav-item"><a href="{{ url_for('quiz') }}" class="nav-link">Викторина</a></li>
+                    <li class="nav-item"><a href="{{ url_for('table_leader_quiz') }}" class="nav-link">Таблица лидеров викторины</a></li>
+                    {% endif %}
+                </ul>
+            </header>
+                    </div>
+            </div>
+
+
+        <div class="row">
+        <div class="col-2 new-weather">
+            <iframe src="https://www.meteoblue.com/en/weather/widget/daily?geoloc=detect&days=3&tempunit=CELSIUS&windunit=KILOMETER_PER_HOUR&precipunit=MILLIMETER&coloured=coloured&pictoicon=1&maxtemperature=1&mintemperature=1&windspeed=1&windgust=0&winddirection=1&uv=0&humidity=0&precipitation=1&precipitationprobability=1&spot=1&pressure=0&layout=light"  frameborder="0" scrolling="NO" allowtransparency="true" sandbox="allow-same-origin allow-scripts allow-popups allow-popups-to-escape-sandbox" style="width: 162px; height: 420px"></iframe><div><!-- DO NOT REMOVE THIS LINK --><a href="https://www.meteoblue.com/en/weather/week/index?utm_source=daily_widget&utm_medium=linkus&utm_content=daily&utm_campaign=Weather%2BWidget" target="_blank" rel="noopener">meteoblue</a></div>
+        </div>
+
+        <div class="col-10">
+            <h1>
+                {% block body %}
+                {% endblock %}
+            </h1>
+        </div>
+            </div>
+        </div>
+   <footer class="container text-center">
+       <div class="row justify-content-end">
+           <p class="col-2 justify-content-end">Dmitry_Web_Developer<br>Аll rights reserved 2025</p>
+       </div>
+   </footer>
+</body>
