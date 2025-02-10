@@ -1,3 +1,5 @@
+import requests
+import locale
 from flask import Flask, render_template, request, redirect, url_for, jsonify, abort
 from flask_sqlalchemy import SQLAlchemy
 from flask_login import LoginManager, UserMixin, login_user, logout_user, current_user, login_required
@@ -41,6 +43,14 @@ class QuizLeaderboard(db.Model):
 
     user = db.relationship('User', backref=db.backref(
         'table_leader_quiz', lazy=True))
+
+
+class UserWeather:
+    def __init__(self, day_of_week, date, day_temperature, night_temperature):
+        self.day_of_week = day_of_week
+        self.date = date
+        self.day_temperature = round(day_temperature)
+        self.night_temperature = night_temperature
 
 
 @login_manager.user_loader
@@ -163,6 +173,46 @@ def quiz_answer():
         pass
 
     return redirect(url_for('quiz'))
+
+
+@app.route('/weather', methods=['POST'])
+def user_weather():
+    try:
+        city = request.form['city']
+        api_key = 'b1b15e88fa797225412429c1c50c122a1'
+        url = f'http://api.openweathermap.org/data/2.5/forecast?q={city}&appid={api_key}&units=metric'
+        response = requests.get(url)
+        data = response.json()
+
+        if data['cod'] == '200':
+            user_weather = {}
+            today = datetime.now().date()
+            locale.setlocale(locale.LC_ALL, 'ru_RU')
+            for forecast in data['list']:
+                date_time = forecast['dt_txt']
+                date_obj = datetime.strptime(date_time, '%Y-%m-%d %H:%M:%S')
+                if date_obj.hour == 12 or (date_obj.hour > 12 and date_obj.date() == today):
+                    day_of_week = date_obj.strftime('%A')
+                    date = date_obj.strftime('%Y-%m-%d')
+                    day_temperature = forecast['main']['temp']
+                    if date not in user_weather:
+                        user_weather[date] = UserWeather(
+                            day_of_week, date, day_temperature, None)
+                elif date_obj.hour == 0:
+                    date = (date_obj - timedelta(days=1)).strftime('%Y-%m-%d')
+                    night_temperature = forecast['main']['temp']
+                    if date in user_weather:
+                        user_weather[
+                            date].night_temperature = round(night_temperature)
+
+            filtered_forecast = [forecast for forecast in user_weather.values() if
+                                 datetime.strptime(forecast.date, '%Y-%m-%d').date() in [today, today + timedelta(days=1), today + timedelta(days=2)]]
+            return render_template('index.html', user_weather=filtered_forecast)
+        else:
+            error_message = f"Сбой сервера: {data['message']}"
+            return render_template('index.html', error=error_message)
+    except Exception as e:
+        return render_template('index.html', error=str(e))
 
 
 if __name__ == '__main__':

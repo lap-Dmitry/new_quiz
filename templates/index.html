@@ -5,7 +5,58 @@
 {% endblock %}
 
 {% block body %}
-<div class="container">
-<h1>Главная страница</h1>
+
+<div class="content">
+    <form action="{{ url_for('user_weather') }}" method="POST">
+        <div class="row">
+            <div class="col-12 text-center">
+                <label for="city" class='weather_user'>
+                    <input class="form-control" type="text" id="city" name="city" placeholder="Введите название города">
+                </label>
+            </div>
+            <div class="col-12 text-center">
+                <button type="submit" class="btn btn-primary btn-lg">Узнать погоду в городе</button>
+            </div>
+        </div>
+    </form>
+
+    {% if error %}
+        <p>{{ error }}</p>
+    {% endif %}
+
+    {% if user_weather %}
+        <h2 class="text-center title_index">Погода в городе на ближайшие 3 дня:</h2>
+            <div class="row">
+                <div class="col border">
+                    <p class="text_title">День недели</p>
+                </div>
+                <div class="col border">
+                    <p class="text_title">Дата</p>
+                </div>
+                <div class="col border">
+                    <p class="text_title">Температура днем</p>
+                </div>
+                <div class="col border">
+                    <p class="text_title">Температура ночью</p>
+                </div>
+            </div>
+
+            {% for day_forecast in user_weather %}   
+                <div class="row">
+                    <div class="col border">
+                        <p class="text_info">{{ day_forecast.day_of_week }}</p>
+                    </div>
+                    <div class="col border">
+                        <p class="text_info">{{ day_forecast.date }}</p>
+                    </div>
+                    <div class="col border">
+                        <p class="text_info">{{ day_forecast.day_temperature }}</p>
+                    </div>
+                    <div class="col border">
+                        <p class="text_info">{{ day_forecast.night_temperature }}</p>
+                    </div>
+                </div>
+                {% endfor %}
+    {% endif %}
 </div>
 {% endblock %}

@@ -1,0 +1,47 @@
+.title_index {
+    margin: 50px 0;
+}
+
+.text_title {
+    font-size: 18px;
+}
+
+.text_info {
+    font-size: 16px;
+}
+
+label,
+.weather_user {
+    width: 298px;
+    height: 48px;
+}
+
+.quiz,
+.h1,
+h1 {
+    font-size: 1rem;
+}
+
+.quiz,
+.h3,
+h3 {
+    font-size: 1.5rem;
+}
+
+.form-check-input {
+    margin-top: .15em;
+    margin-right: .3rem;
+}
+
+.choice_answer {
+    margin-top: 20px;
+}
+
+.button_submit {
+    margin-top: 20px;
+}
+
+.btn,
+.btn-lg {
+    width: 298px;
+}
